@@ -273,20 +273,8 @@ You'll have two primary environments - [canary](http://martinfowler.com/bliki/Ca
 
 1. Return to the first terminal
 
-### Create a repository for the sample app source
-Here you'll create your own copy of the `gceme` sample app in [Cloud Source Repository](https://cloud.google.com/source-repositories/docs/).
-
-1. Change directories to `sample-app` of the repo you cloned previously, then initialize the git repository.
-
-   **Be sure to replace _REPLACE_WITH_YOUR_PROJECT_ID_ with the name of your Google Cloud Platform project**
-
-    ```shell
-    $ cd sample-app
-    $ git init
-    $ git config credential.helper gcloud.sh
-    $ gcloud source repos create gceme
-    $ git remote add origin https://source.developers.google.com/p/REPLACE_WITH_YOUR_PROJECT_ID/r/gceme
-    ```
+### Create a fork for the sample-app source
+Here you'll create fork of the `gceme` sample app in https://github.com
 
 1. Ensure git is able to identify you:
 
@@ -295,13 +283,11 @@ Here you'll create your own copy of the `gceme` sample app in [Cloud Source Repo
     $ git config --global user.name "YOUR-NAME"
     ```
 
-1. Add, commit, and push all the files:
+1. Navigate to https://github.com/GoogleCloudPlatform/continuous-deployment-on-kubernetes
 
-    ```shell
-    $ git add .
-    $ git commit -m "Initial commit"
-    $ git push origin master
-    ```
+    1. Click on the "Fork" button.
+    1. Select your GitHub username.
+    1. Run the following command: `git remote add origin https://github.com/REPLACE_WITH_YOUR_GITHUB_USERNAME/continuous-deployment-on-kubernetes.git`
 
 ## Create a pipeline
 You'll now use Jenkins to define and run a pipeline that will test, build, and deploy your copy of `gceme` to your Kubernetes cluster. You'll approach this in phases. Let's get started with the first.
@@ -334,11 +320,13 @@ Navigate to your Jenkins UI and follow these steps to configure a Pipeline job (
 1. Click `Add Source` and choose `git`
 
 1. Paste the **HTTPS clone URL** of your `sample-app` repo on Cloud Source Repositories into the **Project Repository** field.
-    It will look like: https://source.developers.google.com/p/REPLACE_WITH_YOUR_PROJECT_ID/r/gceme
+    It will look like: https://github.com/REPLACE_WITH_YOUR_GITHUB_USERNAME/continuous-deployment-on-kubernetes
 
 1. From the Credentials dropdown select the name of new created credentials from the Phase 1. It should have the format `PROJECT_ID service account`.
 
 1. Under 'Scan Multibranch Pipeline Triggers' section, check the 'Periodically if not otherwise run' box and se the 'Interval' value to 1 minute.
+
+1. Under `Build Configuration` > `Script Path`, enter: `sample-app/Jenkinsfile`.
 
 1. Click `Save`, leaving all other options with their defaults
 
